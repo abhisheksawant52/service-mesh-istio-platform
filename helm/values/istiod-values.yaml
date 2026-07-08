@@ -1,0 +1,59 @@
+---
+# Override values for the Istio "istiod" control-plane chart.
+# Chart: https://istio-release.storage.googleapis.com/charts (istiod)
+#
+# The mesh identity fields below (meshID, network, clusterName) are also set
+# by Terraform via `set {}` blocks; the values here document the intended
+# multi-cluster topology and act as defaults for plain `helm install`.
+
+revision: default
+
+global:
+  # Shared across every control plane in the mesh — must be identical.
+  meshID: mesh1
+
+  # Multi-cluster / multi-network topology.
+  multiCluster:
+    enabled: true
+    clusterName: cluster1
+  network: network1
+
+  proxy:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: "2"
+        memory: 1024Mi
+
+  logging:
+    level: "default:info"
+
+meshConfig:
+  # Trust domain for SPIFFE workload identities — shared across the mesh.
+  trustDomain: cluster.local
+  enableAutoMtls: true
+  accessLogFile: /dev/stdout
+  defaultConfig:
+    proxyMetadata:
+      ISTIO_META_DNS_CAPTURE: "true"
+      ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+  # Enable distributed tracing sampling for the mesh.
+  enableTracing: true
+  defaultProviders:
+    tracing:
+      - jaeger
+
+pilot:
+  replicaCount: 2
+  autoscaleEnabled: true
+  autoscaleMin: 2
+  autoscaleMax: 5
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2048Mi
+  env:
+    # Distribute endpoints across networks for cross-cluster load balancing.
+    PILOT_SKIP_VALIDATE_TRUST_DOMAIN: "false"

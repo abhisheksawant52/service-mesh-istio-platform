@@ -1,0 +1,14 @@
+---
+# Override values for the Istio "base" chart (CRDs + cluster resources).
+# Chart: https://istio-release.storage.googleapis.com/charts (base)
+
+# Install the cluster-scoped Custom Resource Definitions.
+base:
+  enableCRDTemplates: false
+
+# Revision this base install is associated with. Keep in sync with the
+# istiod revision so revision tags resolve correctly during canary upgrades.
+defaultRevision: default
+
+global:
+  istioNamespace: istio-system

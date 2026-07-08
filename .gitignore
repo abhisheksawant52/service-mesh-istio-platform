@@ -1,0 +1,33 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+tfplan
+*.tfplan
+
+# Terraform variable files (but keep the tracked examples)
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+!*.tfvars.json.example
+
+# Terraform lockfile — uncomment to ignore if you do not commit it
+# .terraform.lock.hcl
+
+# Kubeconfig / secrets
+kubeconfig
+*.kubeconfig
+cacerts/
+*-secret.yaml
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,29 @@
+# Copy to terraform.tfvars and adjust for your cluster.
+# terraform.tfvars is gitignored; *.example files are tracked.
+
+kubeconfig_path = "~/.kube/config"
+kube_context    = "cluster1-admin"
+
+istio_version   = "1.22.3"
+istio_namespace = "istio-system"
+revision        = "default"
+
+# Shared mesh identity — keep mesh_id and trust_domain identical across clusters.
+mesh_id      = "mesh1"
+trust_domain = "cluster.local"
+
+# Per-cluster topology labels.
+cluster_name = "cluster1"
+network      = "network1"
+
+istiod_replicas         = 2
+enable_ingress_gateway  = true
+enable_eastwest_gateway = false
+enable_addons           = true
+
+addons = {
+  kiali      = true
+  prometheus = true
+  grafana    = true
+  jaeger     = true
+}

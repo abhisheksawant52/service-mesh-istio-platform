@@ -1,0 +1,38 @@
+---
+# VirtualService that binds the mesh's internal services to the east-west
+# gateway so they are reachable from peer clusters over the shared mesh.
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: expose-mesh-services
+  namespace: istio-system
+  labels:
+    app.kubernetes.io/part-of: service-mesh-istio-platform
+spec:
+  hosts:
+    - "*.local"
+  gateways:
+    - cross-network-gateway
+  tls:
+    - match:
+        - port: 15443
+          sniHosts:
+            - "*.local"
+      route:
+        - destination:
+            host: "*.local"
+---
+# Sidecar resource limiting egress to the local namespace plus istio-system,
+# keeping cross-cluster config distribution efficient.
+apiVersion: networking.istio.io/v1
+kind: Sidecar
+metadata:
+  name: default
+  namespace: istio-system
+  labels:
+    app.kubernetes.io/part-of: service-mesh-istio-platform
+spec:
+  egress:
+    - hosts:
+        - "./*"
+        - "istio-system/*"

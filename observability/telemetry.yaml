@@ -1,0 +1,25 @@
+---
+# Mesh-wide Telemetry configuration: metrics, access logs, and trace sampling.
+# Applies to every workload in the mesh (empty selector = mesh default in the
+# root config namespace, istio-system).
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+  labels:
+    app.kubernetes.io/part-of: service-mesh-istio-platform
+spec:
+  # Prometheus metrics via the built-in stats provider.
+  metrics:
+    - providers:
+        - name: prometheus
+  # Structured access logs to stdout, scraped by the logging stack.
+  accessLogging:
+    - providers:
+        - name: envoy
+  # Distributed tracing to Jaeger at 10% sampling.
+  tracing:
+    - providers:
+        - name: jaeger
+      randomSamplingPercentage: 10.0

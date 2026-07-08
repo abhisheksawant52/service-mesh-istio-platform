@@ -1,0 +1,15 @@
+# Normalize line endings to LF on checkin
+* text=auto eol=lf
+
+# Explicit text types
+*.tf     text eol=lf
+*.hcl    text eol=lf
+*.yaml   text eol=lf
+*.yml    text eol=lf
+*.md     text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary

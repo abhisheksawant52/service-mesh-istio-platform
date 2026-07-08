@@ -1,0 +1,25 @@
+---
+# East-west gateway that exposes all mesh services to peer clusters.
+# Apply on every cluster that participates in cross-cluster traffic.
+# The gateway terminates and re-originates mTLS using the AUTO_PASSTHROUGH mode
+# so SNI-based routing can reach the correct in-mesh workload.
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: cross-network-gateway
+  namespace: istio-system
+  labels:
+    app.kubernetes.io/part-of: service-mesh-istio-platform
+    istio: eastwestgateway
+spec:
+  selector:
+    istio: eastwestgateway
+  servers:
+    - port:
+        number: 15443
+        name: tls
+        protocol: TLS
+      tls:
+        mode: AUTO_PASSTHROUGH
+      hosts:
+        - "*.local"

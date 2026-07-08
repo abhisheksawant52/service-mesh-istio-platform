@@ -1,0 +1,5 @@
+# Partial backend config for the dev cluster state.
+# terraform init -backend-config=environments/dev/backend.hcl
+bucket = "abhisheksawant52-tfstate-dev"
+key    = "service-mesh-istio-platform/dev/terraform.tfstate"
+region = "us-east-1"

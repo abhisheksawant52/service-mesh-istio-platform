@@ -1,0 +1,27 @@
+# Development cluster — primary in the shared mesh "mesh1".
+# Usage:
+#   terraform init -backend-config=environments/dev/backend.hcl
+#   terraform plan  -var-file=environments/dev/dev.tfvars
+
+kubeconfig_path = "~/.kube/config"
+kube_context    = "dev-cluster1"
+
+istio_version = "1.22.3"
+revision      = "default"
+
+mesh_id      = "mesh1"
+trust_domain = "cluster.local"
+cluster_name = "dev-cluster1"
+network      = "network1"
+
+istiod_replicas         = 1
+enable_ingress_gateway  = true
+enable_eastwest_gateway = true
+enable_addons           = true
+
+addons = {
+  kiali      = true
+  prometheus = true
+  grafana    = true
+  jaeger     = true
+}

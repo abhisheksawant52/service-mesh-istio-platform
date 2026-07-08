@@ -1,0 +1,27 @@
+# Production cluster — remote in the shared mesh "mesh1" on a second network.
+# Usage:
+#   terraform init -backend-config=environments/prod/backend.hcl
+#   terraform plan  -var-file=environments/prod/prod.tfvars
+
+kubeconfig_path = "~/.kube/config"
+kube_context    = "prod-cluster2"
+
+istio_version = "1.22.3"
+revision      = "default"
+
+mesh_id      = "mesh1"
+trust_domain = "cluster.local"
+cluster_name = "prod-cluster2"
+network      = "network2"
+
+istiod_replicas         = 3
+enable_ingress_gateway  = true
+enable_eastwest_gateway = true
+enable_addons           = true
+
+addons = {
+  kiali      = true
+  prometheus = true
+  grafana    = true
+  jaeger     = true
+}

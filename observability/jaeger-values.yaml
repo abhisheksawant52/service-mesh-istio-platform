@@ -1,0 +1,20 @@
+---
+# Override values for the jaegertracing/jaeger chart.
+# Mirrors the settings applied by terraform/modules/istio-addons.
+# All-in-one, in-memory storage — suitable for demo/dev, not production.
+provisionDataStore:
+  cassandra: false
+  elasticsearch: false
+
+allInOne:
+  enabled: true
+
+storage:
+  type: memory
+
+agent:
+  enabled: false
+collector:
+  enabled: false
+query:
+  enabled: false

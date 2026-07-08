@@ -1,0 +1,26 @@
+---
+# Override values for the prometheus-community/prometheus chart.
+# Mirrors the settings applied by terraform/modules/istio-addons.
+server:
+  global:
+    scrape_interval: 15s
+    scrape_timeout: 10s
+  persistentVolume:
+    enabled: false
+  retention: 15d
+
+alertmanager:
+  enabled: false
+
+# Scrape Istio control plane and Envoy sidecar metrics.
+extraScrapeConfigs: |
+  - job_name: istiod
+    kubernetes_sd_configs:
+      - role: endpoints
+        namespaces:
+          names:
+            - istio-system
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+        action: keep
+        regex: istiod;http-monitoring

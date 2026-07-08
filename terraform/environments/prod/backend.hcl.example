@@ -1,0 +1,5 @@
+# Partial backend config for the prod cluster state.
+# terraform init -backend-config=environments/prod/backend.hcl
+bucket = "abhisheksawant52-tfstate-prod"
+key    = "service-mesh-istio-platform/prod/terraform.tfstate"
+region = "us-east-1"

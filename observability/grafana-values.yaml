@@ -1,0 +1,32 @@
+---
+# Override values for the grafana/grafana chart.
+# Mirrors the settings applied by terraform/modules/istio-addons.
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: false
+
+adminUser: admin
+# Password is provided at install time via --set or an existing secret;
+# never commit real credentials.
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-server.istio-system.svc:80
+        isDefault: true
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: istio
+        folder: Istio
+        type: file
+        options:
+          path: /var/lib/grafana/dashboards/istio

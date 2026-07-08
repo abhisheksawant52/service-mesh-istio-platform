@@ -1,0 +1,22 @@
+---
+# Override values for the kiali/kiali-server chart.
+# Mirrors the settings applied by terraform/modules/istio-addons.
+auth:
+  strategy: anonymous
+
+deployment:
+  namespace: istio-system
+
+external_services:
+  prometheus:
+    url: "http://prometheus-server.istio-system.svc:80"
+  grafana:
+    enabled: true
+    internal_url: "http://grafana.istio-system.svc:80"
+  tracing:
+    enabled: true
+    provider: jaeger
+    internal_url: "http://jaeger-query.istio-system.svc:16686"
+
+server:
+  web_root: /kiali
